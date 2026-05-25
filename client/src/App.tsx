@@ -1,65 +1,63 @@
-import { useMemo, useState } from 'react'
-import { CondominiumList } from './components/CondominiumList'
+import { useEffect, useState } from 'react'
 import { ErrorState } from './components/ErrorState'
 import { LoadingState } from './components/LoadingState'
-import { SearchBar } from './components/SearchBar'
-import { SortControls, SortField, SortOrder } from './components/SortControls'
-import { Summary } from './components/Summary'
+import { Sidebar } from './components/Sidebar'
+import { Toast } from './components/Toast'
+import { Topbar } from './components/Topbar'
+import { SettingsProvider } from './context/SettingsContext'
+import { MODULE_UNAVAILABLE_MESSAGE } from './constants/messages'
 import { useCondominiums } from './hooks/useCondominiums'
-import './App.css'
+import { AppView } from './types/settings'
+import { CondominiumsView } from './views/CondominiumsView'
+import { SettingsView } from './views/SettingsView'
 
-function App() {
+function AppShell() {
   const { data, loading, error } = useCondominiums()
-  const [search, setSearch] = useState('')
-  const [sortBy, setSortBy] = useState<SortField>('name')
-  const [sortOrder, setSortOrder] = useState<SortOrder>('asc')
+  const [view, setView] = useState<AppView>('condominiums')
+  const [toast, setToast] = useState<string | null>(null)
 
-  const filtered = useMemo(() => {
-    const term = search.toLowerCase().trim()
+  useEffect(() => {
+    if (!toast) return
+    const id = window.setTimeout(() => setToast(null), 3500)
+    return () => window.clearTimeout(id)
+  }, [toast])
 
-    return data
-      .filter((c) => c.name.toLowerCase().includes(term))
-      .sort((a, b) => {
-        const comparison =
-          sortBy === 'name'
-            ? a.name.localeCompare(b.name)
-            : a.residents - b.residents
-        return sortOrder === 'asc' ? comparison : -comparison
-      })
-  }, [data, search, sortBy, sortOrder])
+  function showModuleUnavailable(message = MODULE_UNAVAILABLE_MESSAGE) {
+    setToast(message)
+  }
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>Painel de Gestão de Condomínios</h1>
-      </header>
+    <div className="app-layout">
+      <Sidebar
+        currentView={view}
+        onNavigate={setView}
+        onModuleUnavailable={showModuleUnavailable}
+      />
+      <div className="main-wrapper">
+        <Topbar view={view} />
+        <main className="main-content">
+          {toast && <Toast message={toast} />}
 
-      <main>
-        {loading && <LoadingState />}
+          {view === 'settings' && <SettingsView />}
 
-        {error && <ErrorState message={error} />}
-
-        {!loading && !error && (
-          <>
-            <Summary condominiums={data} />
-
-            <div className="controls">
-              <SearchBar value={search} onSearch={setSearch} />
-              <SortControls
-                sortBy={sortBy}
-                sortOrder={sortOrder}
-                onSort={(field, order) => {
-                  setSortBy(field)
-                  setSortOrder(order)
-                }}
-              />
-            </div>
-
-            <CondominiumList condominiums={filtered} />
-          </>
-        )}
-      </main>
+          {view === 'condominiums' && (
+            <>
+              {loading && <LoadingState />}
+              {error && <ErrorState message={error} />}
+              {!loading && !error && <CondominiumsView data={data} />}
+            </>
+          )}
+        </main>
+      </div>
     </div>
+  )
+}
+
+function App() {
+  return (
+    <SettingsProvider>
+      <AppShell />
+    </SettingsProvider>
   )
 }
 

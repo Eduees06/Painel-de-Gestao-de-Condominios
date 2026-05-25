@@ -1,3 +1,5 @@
+import { Search } from 'lucide-react'
+
 interface SearchBarProps {
   value: string
   onSearch: (value: string) => void
@@ -5,14 +7,15 @@ interface SearchBarProps {
 
 export function SearchBar({ value, onSearch }: SearchBarProps) {
   return (
-    <div className="search-bar">
-      <label htmlFor="search-input">Buscar condomínio</label>
+    <div className="search-wrapper">
+      <Search size={16} className="search-icon" />
       <input
-        id="search-input"
         type="search"
+        className="search-input"
         value={value}
         placeholder="Buscar condomínio..."
         onChange={(e) => onSearch(e.target.value)}
+        aria-label="Buscar condomínio"
       />
     </div>
   )

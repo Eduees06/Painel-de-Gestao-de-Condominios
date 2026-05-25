@@ -1,5 +1,4 @@
-export type SortField = 'name' | 'residents'
-export type SortOrder = 'asc' | 'desc'
+import { SortField, SortOrder } from '../types/sort'
 
 interface SortControlsProps {
   sortBy: SortField
@@ -9,32 +8,31 @@ interface SortControlsProps {
 
 export function SortControls({ sortBy, sortOrder, onSort }: SortControlsProps) {
   return (
-    <fieldset className="sort-controls">
-      <legend>Ordenar</legend>
-      <div className="sort-controls-row">
-        <label htmlFor="sort-field">
-          Campo
-          <select
-            id="sort-field"
-            value={sortBy}
-            onChange={(e) => onSort(e.target.value as SortField, sortOrder)}
-          >
-            <option value="name">Nome</option>
-            <option value="residents">Moradores</option>
-          </select>
-        </label>
-        <label htmlFor="sort-order">
-          Direção
-          <select
-            id="sort-order"
-            value={sortOrder}
-            onChange={(e) => onSort(sortBy, e.target.value as SortOrder)}
-          >
-            <option value="asc">↑ Crescente</option>
-            <option value="desc">↓ Decrescente</option>
-          </select>
-        </label>
-      </div>
-    </fieldset>
+    <div className="sort-controls">
+      <label className="filter-label">
+        Ordenar por
+        <select
+          className="sort-select"
+          value={sortBy}
+          aria-label="Ordenar por"
+          onChange={(e) => onSort(e.target.value as SortField, sortOrder)}
+        >
+          <option value="name">Nome</option>
+          <option value="residents">Moradores</option>
+        </select>
+      </label>
+      <label className="filter-label">
+        Direção
+        <select
+          className="sort-select"
+          value={sortOrder}
+          aria-label="Direção da ordenação"
+          onChange={(e) => onSort(sortBy, e.target.value as SortOrder)}
+        >
+          <option value="asc">↑ Crescente</option>
+          <option value="desc">↓ Decrescente</option>
+        </select>
+      </label>
+    </div>
   )
 }
