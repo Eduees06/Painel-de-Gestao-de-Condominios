@@ -71,14 +71,6 @@ export function SettingsView() {
         </div>
       </section>
 
-      <section className="settings-card">
-        <h3>Preferências</h3>
-        <ul className="settings-list">
-          <li>Menu lateral retrátil pelo ícone na barra</li>
-          <li>Tema aplicado ao selecionar; nome ao clicar em Salvar</li>
-          <li>Configurações salvas neste navegador</li>
-        </ul>
-      </section>
     </div>
   )
 }

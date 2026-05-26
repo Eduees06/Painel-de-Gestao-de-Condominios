@@ -2,13 +2,14 @@ import { X } from 'lucide-react'
 
 interface ToastProps {
   message: string
+  closing?: boolean
   onClose: () => void
 }
 
-export function Toast({ message, onClose }: ToastProps) {
+export function Toast({ message, closing, onClose }: ToastProps) {
   return (
     <div className="toast-overlay" role="presentation">
-      <div className="toast" role="alertdialog" aria-live="assertive">
+      <div className={`toast ${closing ? 'toast--closing' : ''}`} role="alertdialog" aria-live="assertive">
         <button
           type="button"
           className="toast-close"

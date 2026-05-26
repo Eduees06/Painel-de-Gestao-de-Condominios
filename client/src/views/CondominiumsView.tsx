@@ -68,29 +68,31 @@ export function CondominiumsView({ data }: CondominiumsViewProps) {
         resultsCount={filtered.length}
       />
 
-      <CondominiumList
-        condominiums={filtered}
-        sortBy={sortBy}
-        sortOrder={sortOrder}
-        onHeaderSort={handleHeaderSort}
-        onClearSearch={() => {
-          setSearch('')
-          setSizeFilter(DEFAULT_SIZE_FILTER)
-        }}
-      />
+      <div className="condominium-body">
+        <CondominiumList
+          condominiums={filtered}
+          sortBy={sortBy}
+          sortOrder={sortOrder}
+          onHeaderSort={handleHeaderSort}
+          onClearSearch={() => {
+            setSearch('')
+            setSizeFilter(DEFAULT_SIZE_FILTER)
+          }}
+        />
 
-      <footer className="page-footer">
-        Fonte:{' '}
-        <a
-          href={DATA_META.datasetLink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {DATA_META.source} — {DATA_META.datasetName}
-        </a>
-        {' '}
-        · Dados referentes ao ano de {DATA_META.year}
-      </footer>
+        <footer className="page-footer">
+          Fonte:{' '}
+          <a
+            href={DATA_META.datasetLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {DATA_META.source} — {DATA_META.datasetName}
+          </a>
+          {' '}
+          · Dados referentes ao ano de {DATA_META.year}
+        </footer>
+      </div>
     </>
   )
 }

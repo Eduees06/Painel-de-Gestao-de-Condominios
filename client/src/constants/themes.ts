@@ -10,7 +10,7 @@ export const THEME_OPTIONS: ThemeOption[] = [
   {
     id: 'padrao',
     label: 'Padrão',
-    description: 'Navy e dourado, fundo creme',
+    description: 'Navy e dourado com fundo creme',
   },
   {
     id: 'escuro',
@@ -20,6 +20,6 @@ export const THEME_OPTIONS: ThemeOption[] = [
   {
     id: 'claro',
     label: 'Claro',
-    description: 'Branco com azul claro',
+    description: 'Branco com azul claro e visual leve',
   },
 ]
