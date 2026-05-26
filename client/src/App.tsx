@@ -36,7 +36,7 @@ function AppShell() {
       <div className="main-wrapper">
         <Topbar view={view} />
         <main className="main-content">
-          {toast && <Toast message={toast} />}
+          {toast && <Toast message={toast} onClose={() => setToast(null)} />}
 
           {view === 'settings' && <SettingsView />}
 

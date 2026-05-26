@@ -1,9 +1,22 @@
+import { useEffect, useState } from 'react'
 import { THEME_OPTIONS } from '../constants/themes'
 import { useSettingsContext } from '../context/SettingsContext'
 import { ThemeId } from '../types/settings'
 
 export function SettingsView() {
-  const { settings, setUserName, setTheme } = useSettingsContext()
+  const { settings, saveUserName, setTheme } = useSettingsContext()
+  const [draftName, setDraftName] = useState(settings.userName)
+  const [savedHint, setSavedHint] = useState(false)
+
+  useEffect(() => {
+    setDraftName(settings.userName)
+  }, [settings.userName])
+
+  function handleSave() {
+    saveUserName(draftName)
+    setSavedHint(true)
+    window.setTimeout(() => setSavedHint(false), 2500)
+  }
 
   return (
     <div className="settings-view">
@@ -19,15 +32,20 @@ export function SettingsView() {
           <input
             type="text"
             className="settings-input"
-            value={settings.userName}
+            value={draftName}
             maxLength={48}
-            onChange={(e) => setUserName(e.target.value)}
+            onChange={(e) => setDraftName(e.target.value)}
             placeholder="Seu nome"
           />
         </label>
         <p className="settings-hint">
-          O nome aparece na barra lateral. Iniciais geradas automaticamente.
+          O nome na barra lateral só muda após salvar. Iniciais geradas
+          automaticamente.
         </p>
+        <button type="button" className="btn-primary" onClick={handleSave}>
+          Salvar
+        </button>
+        {savedHint && <p className="settings-saved">Nome atualizado.</p>}
       </section>
 
       <section className="settings-card">
@@ -57,8 +75,8 @@ export function SettingsView() {
         <h3>Preferências</h3>
         <ul className="settings-list">
           <li>Menu lateral retrátil pelo ícone na barra</li>
-          <li>Ordenação pela tabela ou pelos filtros acima da lista</li>
-          <li>Configurações salvas automaticamente neste navegador</li>
+          <li>Tema aplicado ao selecionar; nome ao clicar em Salvar</li>
+          <li>Configurações salvas neste navegador</li>
         </ul>
       </section>
     </div>

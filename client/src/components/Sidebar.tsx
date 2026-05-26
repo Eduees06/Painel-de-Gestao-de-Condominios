@@ -45,12 +45,10 @@ export function Sidebar({
   const initials = getInitials(settings.userName)
 
   return (
-    <aside
-      className={`sidebar ${collapsed ? 'sidebar--collapsed' : ''}`}
-    >
+    <aside className={`sidebar ${collapsed ? 'sidebar--collapsed' : ''}`}>
       <div className="sidebar-top">
         <div className="sidebar-logo">
-          <Building2 size={22} color="var(--lux-gold)" />
+          <Building2 size={22} className="sidebar-logo-icon" />
           {!collapsed && <span>Painel Condomínios</span>}
         </div>
         <button
@@ -67,7 +65,7 @@ export function Sidebar({
       <div className="sidebar-profile">
         <div className="sidebar-avatar">{initials}</div>
         {!collapsed && (
-          <div>
+          <div className="sidebar-profile-text">
             <p className="sidebar-user-name">{settings.userName}</p>
             <p className="sidebar-user-role">Gestão</p>
           </div>

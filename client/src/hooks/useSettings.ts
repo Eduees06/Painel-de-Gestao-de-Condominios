@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { applyThemeTokens, migrateThemeId } from '../constants/themeTokens'
 import { DEFAULT_SETTINGS, AppSettings, ThemeId } from '../types/settings'
 
 const STORAGE_KEY = 'painel-condominios-settings'
@@ -7,7 +8,12 @@ function loadSettings(): AppSettings {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return DEFAULT_SETTINGS
-    return { ...DEFAULT_SETTINGS, ...JSON.parse(raw) }
+    const parsed = JSON.parse(raw) as Partial<AppSettings>
+    return {
+      ...DEFAULT_SETTINGS,
+      ...parsed,
+      theme: migrateThemeId(String(parsed.theme ?? DEFAULT_SETTINGS.theme)),
+    }
   } catch {
     return DEFAULT_SETTINGS
   }
@@ -20,12 +26,12 @@ function saveSettings(settings: AppSettings) {
 export function useSettings() {
   const [settings, setSettings] = useState<AppSettings>(() => {
     const loaded = loadSettings()
-    document.documentElement.setAttribute('data-theme', loaded.theme)
+    applyThemeTokens(loaded.theme)
     return loaded
   })
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', settings.theme)
+    applyThemeTokens(settings.theme)
     saveSettings(settings)
   }, [settings])
 
@@ -33,8 +39,9 @@ export function useSettings() {
     setSettings((prev) => ({ ...prev, ...patch }))
   }, [])
 
-  const setUserName = useCallback((userName: string) => {
-    updateSettings({ userName })
+  const saveUserName = useCallback((userName: string) => {
+    const trimmed = userName.trim() || DEFAULT_SETTINGS.userName
+    updateSettings({ userName: trimmed })
   }, [updateSettings])
 
   const setTheme = useCallback((theme: ThemeId) => {
@@ -50,8 +57,7 @@ export function useSettings() {
 
   return {
     settings,
-    updateSettings,
-    setUserName,
+    saveUserName,
     setTheme,
     toggleSidebar,
   }

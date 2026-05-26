@@ -1,4 +1,4 @@
-export type ThemeId = 'luxury' | 'midnight' | 'pearl'
+export type ThemeId = 'padrao' | 'escuro' | 'claro'
 
 export type AppView = 'condominiums' | 'settings'
 
@@ -10,6 +10,6 @@ export interface AppSettings {
 
 export const DEFAULT_SETTINGS: AppSettings = {
   userName: 'Administrador',
-  theme: 'luxury',
+  theme: 'padrao',
   sidebarCollapsed: false,
 }

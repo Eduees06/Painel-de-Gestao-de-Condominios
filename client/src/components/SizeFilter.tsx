@@ -1,6 +1,5 @@
 import { CondominiumSize } from '../types/condominium'
 import { SizeFilterState } from '../types/filters'
-import { sizeBadgeClass } from '../utils/sizeBadge'
 
 const SIZES: CondominiumSize[] = ['Pequeno', 'Médio', 'Grande']
 
@@ -25,7 +24,7 @@ export function SizeFilter({ value, onChange }: SizeFilterProps) {
               checked={value[size]}
               onChange={() => toggle(size)}
             />
-            <span className={`badge ${sizeBadgeClass(size)}`}>{size}</span>
+            <span className="size-filter-label">{size}</span>
           </label>
         ))}
       </div>

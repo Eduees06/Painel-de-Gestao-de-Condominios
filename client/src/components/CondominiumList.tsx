@@ -37,7 +37,7 @@ export function CondominiumList({
     return (
       <div className="condominium-table-wrap">
         <div className="empty-state">
-          <Building2 size={40} color="var(--lux-muted)" />
+          <Building2 size={40} color="var(--color-text-muted)" />
           <p>Nenhum condomínio encontrado</p>
           <button type="button" onClick={onClearSearch}>
             Limpar busca

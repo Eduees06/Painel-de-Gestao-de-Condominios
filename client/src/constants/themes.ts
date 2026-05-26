@@ -8,18 +8,18 @@ export interface ThemeOption {
 
 export const THEME_OPTIONS: ThemeOption[] = [
   {
-    id: 'luxury',
-    label: 'Luxo clássico',
+    id: 'padrao',
+    label: 'Padrão',
     description: 'Navy e dourado, fundo creme',
   },
   {
-    id: 'midnight',
-    label: 'Midnight',
-    description: 'Contraste escuro com detalhes dourados',
+    id: 'escuro',
+    label: 'Escuro',
+    description: 'Cinza escuro com detalhes em azul profundo',
   },
   {
-    id: 'pearl',
-    label: 'Pearl',
-    description: 'Claro e suave, tons champagne',
+    id: 'claro',
+    label: 'Claro',
+    description: 'Branco com azul claro',
   },
 ]
